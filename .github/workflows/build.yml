@@ -30,7 +30,7 @@ jobs:
       - name: Setup Gradle
         uses: GeyserMC/actions/setup-gradle-composite@master
         with:
-          setup-java.java-version: 17
+          setup-java_java-version: 17
 
       - name: Build GeyserConnect
         run: ./gradlew build
