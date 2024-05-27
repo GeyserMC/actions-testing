@@ -66,6 +66,7 @@ jobs:
           username: ${{ secrets.TEST_DOWNLOADS_USERNAME }}
           privateKey: ${{ secrets.TEST_DOWNLOADS_PRIVATE_KEY }}
           host: ${{ secrets.TEST_DOWNLOADS_SERVER_IP }}
+          port: '2133'
           files: |
             build/libs/GeyserConnect.jar
 
