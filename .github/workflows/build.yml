@@ -17,6 +17,15 @@ jobs:
         PROJECT: 'geyserconnect'
 
     steps:
+      - name: Get Release Info
+        id: release-info
+        uses: GeyserMC/actions/previous-release@master
+        with:
+          data: ${{ vars.RELEASEACTION_PREVRELEASE }}
+          
+      - run: | 
+          echo "Previous release: ${{ steps.release-info.outputs.previousRelease }}"
+          echo "Current release: ${{ steps.release-info.outputs.curentRelease }}"
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
