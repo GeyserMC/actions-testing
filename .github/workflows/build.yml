@@ -72,6 +72,7 @@ jobs:
           port: '2133'
           files: |
             build/libs/GeyserConnect.jar
+          changelog: ${{ steps.metadata.outputs.body }}
 
       - name: Notify Discord
         if: ${{ github.repository == 'GeyserMC/actions-testing' && github.ref_name == 'master' }}
