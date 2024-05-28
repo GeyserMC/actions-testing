@@ -14,7 +14,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-        PROJECT: 'geyserconnect'
+        files: |
+          geyserconnect:build/libs/GeyserConnect.jar
+          test:README.md
 
     steps:
       - name: Get Release Info
@@ -32,8 +34,6 @@ jobs:
         with:
           setup-java_java-version: 17
 
-      - run: exit 1
-
       - name: Build GeyserConnect
         run: ./gradlew build
 
@@ -41,7 +41,7 @@ jobs:
         uses: GeyserMC/actions/upload-multi-artifact@master
         if: success()
         with:
-          artifacts: build/libs/GeyserConnect.jar
+          artifacts: ${{ env.files }}
 
       - name: Get Version
         if: ${{ (success() || failure()) && github.repository == 'GeyserMC/actions-testing' }}
@@ -57,8 +57,7 @@ jobs:
         with:
           appID: ${{ secrets.RELEASE_APP_ID }}
           appPrivateKey: ${{ secrets.RELEASE_APP_PK }}
-          files: |
-            geyserconnect:build/libs/GeyserConnect.jar
+          files: ${{ env.files }}
           releaseEnabled: false
           saveMetadata: true
           releaseProject: 'geyserconnect'
@@ -72,8 +71,7 @@ jobs:
           privateKey: ${{ secrets.TEST_DOWNLOADS_PRIVATE_KEY }}
           host: ${{ secrets.TEST_DOWNLOADS_SERVER_IP }}
           port: '2133'
-          files: |
-            build/libs/GeyserConnect.jar
+          files: ${{ env.files }}
           changelog: ${{ steps.metadata.outputs.body }}
 
       - name: Notify Discord
