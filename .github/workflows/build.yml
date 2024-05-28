@@ -48,6 +48,8 @@ jobs:
           version=$(cat build.gradle | grep -o "version '[0-9\\.]*'" | cut -d" " -f2 | sed "s/'//g")
           echo "VERSION=${version}" >> $GITHUB_OUTPUT
 
+      - run: exit 1
+      
       - name: Get Release Metadata
         if: ${{ success() && github.repository == 'GeyserMC/actions-testing' && github.ref_name == 'master' }}
         uses: GeyserMC/actions/release@master
@@ -75,7 +77,7 @@ jobs:
           changelog: ${{ steps.metadata.outputs.body }}
 
       - name: Notify Discord
-        if: ${{ github.repository == 'GeyserMC/actions-testing' && github.ref_name == 'master' }}
+        if: ${{ (success() || failure()) && github.repository == 'GeyserMC/actions-testing' && github.ref_name == 'master' }}
         uses: GeyserMC/actions/notify-discord@master
         with:
           discordWebhook: ${{ secrets.TEST_DISCORD_WEBHOOK }}
